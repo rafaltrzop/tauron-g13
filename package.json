@@ -6,7 +6,7 @@
     "start": "npm run clean && npm run watch",
     "clean": "rm -rf dist",
     "watch": "tsc --watch",
-    "build": "tsc"
+    "build": "npm run clean && tsc"
   },
   "devDependencies": {
     "@types/scriptable-ios": "1.7.8",
