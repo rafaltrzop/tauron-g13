@@ -23,6 +23,7 @@ const isSunday = day === 0;
 const isWeekend = isSaturday || isSunday;
 
 const white = '#FFFFFF';
+const black = '#000000';
 const green = '#93B223';
 const orange = '#FFD028';
 const red = '#FF4D4D';
@@ -89,14 +90,18 @@ if (isSummerTariff) {
 
 widget.backgroundColor = backgroundColor;
 
-const widgetTitleText = widget.addText(timePeriod);
-widgetTitleText.textColor = new Color(white, 0.8);
-widgetTitleText.font = Font.systemFont(14);
+const timePeriodText = widget.addText(timePeriod);
+timePeriodText.textColor = new Color(white, 0.8);
+timePeriodText.shadowColor = new Color(black, 0.2);
+timePeriodText.shadowRadius = 1;
+timePeriodText.font = Font.boldSystemFont(14);
 
 widget.addSpacer(4);
 
 const recommendationText = widget.addText(recommendation);
 recommendationText.textColor = Color.white();
+recommendationText.shadowColor = new Color(black, 0.4);
+recommendationText.shadowRadius = 1;
 recommendationText.font = Font.boldSystemFont(24);
 
 Script.setWidget(widget);
