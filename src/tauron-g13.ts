@@ -11,6 +11,10 @@ widget.url = 'https://www.tauron.pl/';
 // 7. Uncomment the line below:
 // widget.url = 'shortcuts://run-shortcut?name=eLicznik';
 
+const nextRefresh = new Date();
+nextRefresh.setMinutes(0);
+nextRefresh.setSeconds(0);
+
 const date = new Date();
 const month = date.getMonth();
 const day = date.getDay();
@@ -18,6 +22,7 @@ const hour = date.getHours();
 
 const isSummerTariff = month >= 3 && month <= 8;
 
+const isFriday = day === 5;
 const isSaturday = day === 6;
 const isSunday = day === 0;
 const isWeekend = isSaturday || isSunday;
@@ -28,6 +33,8 @@ const green = '#93B223';
 const orange = '#FFD028';
 const red = '#FF4D4D';
 
+const weekendTimePeriod = 'do pon. 7:00';
+
 const greenRecommendation = 'Korzystaj z prądu';
 const orangeRecommendation = 'Neutralne stawki prądu';
 const redRecommendation = 'Ogranicz zużycie prądu';
@@ -37,16 +44,25 @@ let timePeriod: string = 'Ups!';
 let recommendation: string = 'Wystąpił błąd';
 
 if (isSummerTariff) {
-  const isNight = hour >= 0 && hour < 7;
+  const isNight = hour < 7;
   const isAfternoon = hour >= 13 && hour < 19;
-  const isEvening = hour >= 22 && hour < 24;
+  const isEvening = hour >= 22;
 
-  if (isEvening || isNight) {
+  if (isWeekend) {
+    timePeriod = weekendTimePeriod;
+  } else if (isEvening || isNight) {
     timePeriod = '22:00 - 7:00';
+    nextRefresh.setHours(7);
   } else if (isAfternoon) {
     timePeriod = '13:00 - 19:00';
-  } else if (isWeekend) {
-    timePeriod = '00:00 - 24:00';
+    nextRefresh.setHours(19);
+  }
+
+  if (isEvening && isFriday) {
+    timePeriod = weekendTimePeriod;
+    nextRefresh.setDate(nextRefresh.getDate() + 3);
+  } else if (isEvening && !isWeekend) {
+    nextRefresh.setDate(nextRefresh.getDate() + 1);
   }
 
   if (isNight || isAfternoon || isEvening || isWeekend) {
@@ -54,24 +70,35 @@ if (isSummerTariff) {
     backgroundColor = new Color(green);
   } else if (hour >= 7 && hour < 13) {
     timePeriod = '7:00 - 13:00';
+    nextRefresh.setHours(13);
     recommendation = orangeRecommendation;
     backgroundColor = new Color(orange);
   } else if (hour >= 19 && hour < 22) {
     timePeriod = '19:00 - 22:00';
+    nextRefresh.setHours(22);
     recommendation = redRecommendation;
     backgroundColor = new Color(red);
   }
 } else {
-  const isNight = hour >= 0 && hour < 7;
+  const isNight = hour < 7;
   const isAfternoon = hour >= 13 && hour < 16;
-  const isEvening = hour >= 21 && hour < 24;
+  const isEvening = hour >= 21;
 
-  if (isEvening || isNight) {
+  if (isWeekend) {
+    timePeriod = weekendTimePeriod;
+  } else if (isEvening || isNight) {
     timePeriod = '21:00 - 7:00';
+    nextRefresh.setHours(7);
   } else if (isAfternoon) {
     timePeriod = '13:00 - 16:00';
-  } else if (isWeekend) {
-    timePeriod = '00:00 - 24:00';
+    nextRefresh.setHours(16);
+  }
+
+  if (isEvening && isFriday) {
+    timePeriod = weekendTimePeriod;
+    nextRefresh.setDate(nextRefresh.getDate() + 3);
+  } else if (isEvening) {
+    nextRefresh.setDate(nextRefresh.getDate() + 1);
   }
 
   if (isNight || isAfternoon || isEvening || isWeekend) {
@@ -79,15 +106,18 @@ if (isSummerTariff) {
     recommendation = greenRecommendation;
   } else if (hour >= 7 && hour < 13) {
     timePeriod = '7:00 - 13:00';
+    nextRefresh.setHours(13);
     recommendation = orangeRecommendation;
     backgroundColor = new Color(orange);
   } else if (hour >= 16 && hour < 21) {
     timePeriod = '16:00 - 21:00';
+    nextRefresh.setHours(21);
     recommendation = redRecommendation;
     backgroundColor = new Color(red);
   }
 }
 
+widget.refreshAfterDate = nextRefresh;
 widget.backgroundColor = backgroundColor;
 
 const timePeriodText = widget.addText(timePeriod);
