@@ -2,8 +2,15 @@
   "name": "tauron-g13",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "start": "npm run clean && npm run watch",
+    "clean": "rm -rf dist",
+    "watch": "tsc --watch",
+    "build": "tsc"
+  },
   "devDependencies": {
     "@types/scriptable-ios": "1.7.8",
-    "prettier": "3.8.1"
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
   }
 }

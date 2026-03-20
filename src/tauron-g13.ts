@@ -31,9 +31,9 @@ const greenRecommendation = 'Korzystaj z prądu';
 const orangeRecommendation = 'Neutralne stawki prądu';
 const redRecommendation = 'Ogranicz zużycie prądu';
 
-let backgroundColor;
-let recommendation;
-let timePeriod;
+let backgroundColor: Color = Color.black();
+let timePeriod: string = 'Ups!';
+let recommendation: string = 'Wystąpił błąd';
 
 if (isSummerTariff) {
   const isNight = hour >= 0 && hour < 7;
@@ -49,16 +49,16 @@ if (isSummerTariff) {
   }
 
   if (isNight || isAfternoon || isEvening || isWeekend) {
-    backgroundColor = new Color(green);
     recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (hour >= 7 && hour < 13) {
-    backgroundColor = new Color(orange);
-    recommendation = orangeRecommendation;
     timePeriod = '7:00 - 13:00';
+    recommendation = orangeRecommendation;
+    backgroundColor = new Color(orange);
   } else if (hour >= 19 && hour < 22) {
-    backgroundColor = new Color(red);
-    recommendation = redRecommendation;
     timePeriod = '19:00 - 22:00';
+    recommendation = redRecommendation;
+    backgroundColor = new Color(red);
   }
 } else {
   const isNight = hour >= 0 && hour < 7;
@@ -77,13 +77,13 @@ if (isSummerTariff) {
     backgroundColor = new Color(green);
     recommendation = greenRecommendation;
   } else if (hour >= 7 && hour < 13) {
-    backgroundColor = new Color(orange);
-    recommendation = orangeRecommendation;
     timePeriod = '7:00 - 13:00';
+    recommendation = orangeRecommendation;
+    backgroundColor = new Color(orange);
   } else if (hour >= 16 && hour < 21) {
-    backgroundColor = new Color(red);
-    recommendation = redRecommendation;
     timePeriod = '16:00 - 21:00';
+    recommendation = redRecommendation;
+    backgroundColor = new Color(red);
   }
 }
 
