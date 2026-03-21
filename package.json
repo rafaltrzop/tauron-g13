@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run clean && npm run watch",
-    "clean": "rm -rf dist",
+    "start": "npm run watch",
     "watch": "tsc --watch",
-    "build": "npm run clean && tsc"
+    "prebuild": "npm run clean",
+    "build": "tsc && cat src/scriptable-header.txt dist/tauron-g13.js > 'dist/Tauron G13.js' && rm dist/tauron-g13.js",
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
     "@types/scriptable-ios": "1.7.8",
