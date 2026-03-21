@@ -1,6 +1,3 @@
-const widget = new ListWidget();
-widget.url = 'https://www.tauron.pl/';
-
 // Create a shortcut to open the app
 // 1. Open the "Shortcuts" app on your iPhone.
 // 2. Tap the "+" icon in the top right to create a new shortcut.
@@ -8,8 +5,9 @@ widget.url = 'https://www.tauron.pl/';
 // 4. Tap the faded blue word "App" and select "eLicznik" from your list of installed apps.
 // 5. Tap the name at the top of the screen (it says "Open app") and rename it to "eLicznik".
 // 6. Save the changes.
-// 7. Uncomment the line below:
-// widget.url = 'shortcuts://run-shortcut?name=eLicznik';
+// 7. Comment the line below and uncomment the next line:
+const url = 'https://www.tauron.pl/';
+// const url = 'shortcuts://run-shortcut?name=eLicznik';
 
 const nextRefresh = new Date();
 nextRefresh.setMinutes(0);
@@ -94,24 +92,68 @@ if (isLateEvening && isFriday) {
   backgroundColor = new Color(red);
 }
 
-widget.refreshAfterDate = nextRefresh;
-widget.backgroundColor = backgroundColor;
+function buildWidget(
+  url: string,
+  backgroundColor: Color,
+  label: string,
+  title: string,
+): ListWidget {
+  const widget = new ListWidget();
 
-const timePeriodText = widget.addText(timePeriod);
-timePeriodText.textColor = new Color(white, 0.8);
-timePeriodText.shadowColor = new Color(black, 0.2);
-timePeriodText.shadowRadius = 1;
-timePeriodText.font = Font.boldSystemFont(14);
+  widget.url = url;
+  widget.backgroundColor = backgroundColor;
 
-widget.addSpacer(4);
+  const labelText = widget.addText(label);
+  labelText.textColor = new Color(white, 0.8);
+  labelText.shadowColor = new Color(black, 0.2);
+  labelText.shadowRadius = 1;
+  labelText.font = Font.boldSystemFont(14);
 
-const recommendationText = widget.addText(recommendation);
-recommendationText.textColor = Color.white();
-recommendationText.shadowColor = new Color(black, 0.4);
-recommendationText.shadowRadius = 1;
-recommendationText.font = Font.boldSystemFont(24);
+  widget.addSpacer(4);
 
-Script.setWidget(widget);
-Script.complete();
+  const titleText = widget.addText(title);
+  titleText.textColor = Color.white();
+  titleText.shadowColor = new Color(black, 0.4);
+  titleText.shadowRadius = 1;
+  titleText.font = Font.boldSystemFont(24);
 
-widget.presentSmall();
+  return widget;
+}
+
+async function previewWidget(): Promise<void> {
+  const greenWidgetPreview = buildWidget(
+    url,
+    new Color(green),
+    `${afternoonStart}:00 - ${eveningStart}:00`,
+    greenRecommendation,
+  );
+  await greenWidgetPreview.presentSmall();
+
+  const orangeWidgetPreview = buildWidget(
+    url,
+    new Color(orange),
+    `${morningStart}:00 - ${afternoonStart}:00`,
+    orangeRecommendation,
+  );
+  await orangeWidgetPreview.presentSmall();
+
+  const redWidgetPreview = buildWidget(
+    url,
+    new Color(red),
+    `${eveningStart}:00 - ${lateEveningStart}:00`,
+    redRecommendation,
+  );
+  await redWidgetPreview.presentSmall();
+
+  Script.complete();
+}
+
+if (config.runsInApp) {
+  previewWidget();
+} else {
+  const widget = buildWidget(url, backgroundColor, timePeriod, recommendation);
+  widget.refreshAfterDate = nextRefresh;
+
+  Script.setWidget(widget);
+  Script.complete();
+}
