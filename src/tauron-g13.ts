@@ -45,35 +45,41 @@ let recommendation: string = 'Wystąpił błąd';
 
 if (isSummerTariff) {
   const isNight = hour < 7;
+  const isMorning = hour >= 7 && hour < 13;
   const isAfternoon = hour >= 13 && hour < 19;
-  const isEvening = hour >= 22;
+  const isEvening = hour >= 19 && hour < 22;
+  const isLateEvening = hour >= 22;
 
-  if (isWeekend) {
+  if (isLateEvening && isFriday) {
     timePeriod = weekendTimePeriod;
-  } else if (isEvening || isNight) {
+    nextRefresh.setDate(nextRefresh.getDate() + 3);
+    nextRefresh.setHours(7);
+  } else if (isSaturday) {
+    timePeriod = weekendTimePeriod;
+    nextRefresh.setDate(nextRefresh.getDate() + 2);
+    nextRefresh.setHours(7);
+  } else if (isSunday) {
+    timePeriod = weekendTimePeriod;
+    nextRefresh.setDate(nextRefresh.getDate() + 1);
+    nextRefresh.setHours(7);
+  } else if (isLateEvening || isNight) {
     timePeriod = '22:00 - 7:00';
+    isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
     nextRefresh.setHours(7);
   } else if (isAfternoon) {
     timePeriod = '13:00 - 19:00';
     nextRefresh.setHours(19);
   }
 
-  if (isEvening && isFriday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 3);
-  } else if (isEvening && !isWeekend) {
-    nextRefresh.setDate(nextRefresh.getDate() + 1);
-  }
-
-  if (isNight || isAfternoon || isEvening || isWeekend) {
+  if (isLateEvening || isNight || isAfternoon || isWeekend) {
     recommendation = greenRecommendation;
     backgroundColor = new Color(green);
-  } else if (hour >= 7 && hour < 13) {
+  } else if (isMorning) {
     timePeriod = '7:00 - 13:00';
     nextRefresh.setHours(13);
     recommendation = orangeRecommendation;
     backgroundColor = new Color(orange);
-  } else if (hour >= 19 && hour < 22) {
+  } else if (isEvening) {
     timePeriod = '19:00 - 22:00';
     nextRefresh.setHours(22);
     recommendation = redRecommendation;
@@ -81,35 +87,41 @@ if (isSummerTariff) {
   }
 } else {
   const isNight = hour < 7;
+  const isMorning = hour >= 7 && hour < 13;
   const isAfternoon = hour >= 13 && hour < 16;
-  const isEvening = hour >= 21;
+  const isEvening = hour >= 16 && hour < 21;
+  const isLateEvening = hour >= 21;
 
-  if (isWeekend) {
+  if (isLateEvening && isFriday) {
     timePeriod = weekendTimePeriod;
-  } else if (isEvening || isNight) {
+    nextRefresh.setDate(nextRefresh.getDate() + 3);
+    nextRefresh.setHours(7);
+  } else if (isSaturday) {
+    timePeriod = weekendTimePeriod;
+    nextRefresh.setDate(nextRefresh.getDate() + 2);
+    nextRefresh.setHours(7);
+  } else if (isSunday) {
+    timePeriod = weekendTimePeriod;
+    nextRefresh.setDate(nextRefresh.getDate() + 1);
+    nextRefresh.setHours(7);
+  } else if (isLateEvening || isNight) {
     timePeriod = '21:00 - 7:00';
+    isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
     nextRefresh.setHours(7);
   } else if (isAfternoon) {
     timePeriod = '13:00 - 16:00';
     nextRefresh.setHours(16);
   }
 
-  if (isEvening && isFriday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 3);
-  } else if (isEvening) {
-    nextRefresh.setDate(nextRefresh.getDate() + 1);
-  }
-
-  if (isNight || isAfternoon || isEvening || isWeekend) {
-    backgroundColor = new Color(green);
+  if (isLateEvening || isNight || isAfternoon || isWeekend) {
     recommendation = greenRecommendation;
-  } else if (hour >= 7 && hour < 13) {
+    backgroundColor = new Color(green);
+  } else if (isMorning) {
     timePeriod = '7:00 - 13:00';
     nextRefresh.setHours(13);
     recommendation = orangeRecommendation;
     backgroundColor = new Color(orange);
-  } else if (hour >= 16 && hour < 21) {
+  } else if (isEvening) {
     timePeriod = '16:00 - 21:00';
     nextRefresh.setHours(21);
     recommendation = redRecommendation;
