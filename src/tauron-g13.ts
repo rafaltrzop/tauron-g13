@@ -25,7 +25,6 @@ const isSummerTariff = month >= 3 && month <= 8;
 const isFriday = day === 5;
 const isSaturday = day === 6;
 const isSunday = day === 0;
-const isWeekend = isSaturday || isSunday;
 
 const white = '#FFFFFF';
 const black = '#000000';
@@ -54,24 +53,24 @@ if (isSummerTariff) {
     timePeriod = weekendTimePeriod;
     nextRefresh.setDate(nextRefresh.getDate() + 3);
     nextRefresh.setHours(7);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isSaturday) {
     timePeriod = weekendTimePeriod;
     nextRefresh.setDate(nextRefresh.getDate() + 2);
     nextRefresh.setHours(7);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isSunday) {
     timePeriod = weekendTimePeriod;
     nextRefresh.setDate(nextRefresh.getDate() + 1);
     nextRefresh.setHours(7);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isLateEvening || isNight) {
     timePeriod = '22:00 - 7:00';
     isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
     nextRefresh.setHours(7);
-  } else if (isAfternoon) {
-    timePeriod = '13:00 - 19:00';
-    nextRefresh.setHours(19);
-  }
-
-  if (isLateEvening || isNight || isAfternoon || isWeekend) {
     recommendation = greenRecommendation;
     backgroundColor = new Color(green);
   } else if (isMorning) {
@@ -79,6 +78,11 @@ if (isSummerTariff) {
     nextRefresh.setHours(13);
     recommendation = orangeRecommendation;
     backgroundColor = new Color(orange);
+  } else if (isAfternoon) {
+    timePeriod = '13:00 - 19:00';
+    nextRefresh.setHours(19);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isEvening) {
     timePeriod = '19:00 - 22:00';
     nextRefresh.setHours(22);
@@ -96,24 +100,24 @@ if (isSummerTariff) {
     timePeriod = weekendTimePeriod;
     nextRefresh.setDate(nextRefresh.getDate() + 3);
     nextRefresh.setHours(7);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isSaturday) {
     timePeriod = weekendTimePeriod;
     nextRefresh.setDate(nextRefresh.getDate() + 2);
     nextRefresh.setHours(7);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isSunday) {
     timePeriod = weekendTimePeriod;
     nextRefresh.setDate(nextRefresh.getDate() + 1);
     nextRefresh.setHours(7);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isLateEvening || isNight) {
     timePeriod = '21:00 - 7:00';
     isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
     nextRefresh.setHours(7);
-  } else if (isAfternoon) {
-    timePeriod = '13:00 - 16:00';
-    nextRefresh.setHours(16);
-  }
-
-  if (isLateEvening || isNight || isAfternoon || isWeekend) {
     recommendation = greenRecommendation;
     backgroundColor = new Color(green);
   } else if (isMorning) {
@@ -121,6 +125,11 @@ if (isSummerTariff) {
     nextRefresh.setHours(13);
     recommendation = orangeRecommendation;
     backgroundColor = new Color(orange);
+  } else if (isAfternoon) {
+    timePeriod = '13:00 - 16:00';
+    nextRefresh.setHours(16);
+    recommendation = greenRecommendation;
+    backgroundColor = new Color(green);
   } else if (isEvening) {
     timePeriod = '16:00 - 21:00';
     nextRefresh.setHours(21);
