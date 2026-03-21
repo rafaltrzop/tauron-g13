@@ -32,8 +32,6 @@ const green = '#93B223';
 const orange = '#FFD028';
 const red = '#FF4D4D';
 
-const weekendTimePeriod = 'do pon. 7:00';
-
 const greenRecommendation = 'Korzystaj z prądu';
 const orangeRecommendation = 'Neutralne stawki prądu';
 const redRecommendation = 'Ogranicz zużycie prądu';
@@ -42,100 +40,58 @@ let backgroundColor: Color = Color.black();
 let timePeriod: string = 'Ups!';
 let recommendation: string = 'Wystąpił błąd';
 
-if (isSummerTariff) {
-  const isNight = hour < 7;
-  const isMorning = hour >= 7 && hour < 13;
-  const isAfternoon = hour >= 13 && hour < 19;
-  const isEvening = hour >= 19 && hour < 22;
-  const isLateEvening = hour >= 22;
+const morningStart = 7;
+const afternoonStart = 13;
+const eveningStart = isSummerTariff ? 19 : 16;
+const lateEveningStart = isSummerTariff ? 22 : 21;
 
-  if (isLateEvening && isFriday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 3);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isSaturday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 2);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isSunday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 1);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isLateEvening || isNight) {
-    timePeriod = '22:00 - 7:00';
-    isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isMorning) {
-    timePeriod = '7:00 - 13:00';
-    nextRefresh.setHours(13);
-    recommendation = orangeRecommendation;
-    backgroundColor = new Color(orange);
-  } else if (isAfternoon) {
-    timePeriod = '13:00 - 19:00';
-    nextRefresh.setHours(19);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isEvening) {
-    timePeriod = '19:00 - 22:00';
-    nextRefresh.setHours(22);
-    recommendation = redRecommendation;
-    backgroundColor = new Color(red);
-  }
-} else {
-  const isNight = hour < 7;
-  const isMorning = hour >= 7 && hour < 13;
-  const isAfternoon = hour >= 13 && hour < 16;
-  const isEvening = hour >= 16 && hour < 21;
-  const isLateEvening = hour >= 21;
+const isNight = hour < morningStart;
+const isMorning = hour >= morningStart && hour < afternoonStart;
+const isAfternoon = hour >= afternoonStart && hour < eveningStart;
+const isEvening = hour >= eveningStart && hour < lateEveningStart;
+const isLateEvening = hour >= lateEveningStart;
 
-  if (isLateEvening && isFriday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 3);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isSaturday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 2);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isSunday) {
-    timePeriod = weekendTimePeriod;
-    nextRefresh.setDate(nextRefresh.getDate() + 1);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isLateEvening || isNight) {
-    timePeriod = '21:00 - 7:00';
-    isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
-    nextRefresh.setHours(7);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isMorning) {
-    timePeriod = '7:00 - 13:00';
-    nextRefresh.setHours(13);
-    recommendation = orangeRecommendation;
-    backgroundColor = new Color(orange);
-  } else if (isAfternoon) {
-    timePeriod = '13:00 - 16:00';
-    nextRefresh.setHours(16);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-  } else if (isEvening) {
-    timePeriod = '16:00 - 21:00';
-    nextRefresh.setHours(21);
-    recommendation = redRecommendation;
-    backgroundColor = new Color(red);
-  }
+const weekendTimePeriod = `do pon. ${morningStart}:00`;
+
+if (isLateEvening && isFriday) {
+  timePeriod = weekendTimePeriod;
+  nextRefresh.setDate(nextRefresh.getDate() + 3);
+  nextRefresh.setHours(morningStart);
+  recommendation = greenRecommendation;
+  backgroundColor = new Color(green);
+} else if (isSaturday) {
+  timePeriod = weekendTimePeriod;
+  nextRefresh.setDate(nextRefresh.getDate() + 2);
+  nextRefresh.setHours(morningStart);
+  recommendation = greenRecommendation;
+  backgroundColor = new Color(green);
+} else if (isSunday) {
+  timePeriod = weekendTimePeriod;
+  nextRefresh.setDate(nextRefresh.getDate() + 1);
+  nextRefresh.setHours(morningStart);
+  recommendation = greenRecommendation;
+  backgroundColor = new Color(green);
+} else if (isLateEvening || isNight) {
+  timePeriod = `${lateEveningStart}:00 - ${morningStart}:00`;
+  isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
+  nextRefresh.setHours(morningStart);
+  recommendation = greenRecommendation;
+  backgroundColor = new Color(green);
+} else if (isMorning) {
+  timePeriod = `${morningStart}:00 - ${afternoonStart}:00`;
+  nextRefresh.setHours(afternoonStart);
+  recommendation = orangeRecommendation;
+  backgroundColor = new Color(orange);
+} else if (isAfternoon) {
+  timePeriod = `${afternoonStart}:00 - ${eveningStart}:00`;
+  nextRefresh.setHours(eveningStart);
+  recommendation = greenRecommendation;
+  backgroundColor = new Color(green);
+} else if (isEvening) {
+  timePeriod = `${eveningStart}:00 - ${lateEveningStart}:00`;
+  nextRefresh.setHours(lateEveningStart);
+  recommendation = redRecommendation;
+  backgroundColor = new Color(red);
 }
 
 widget.refreshAfterDate = nextRefresh;
