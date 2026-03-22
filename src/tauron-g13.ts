@@ -1,11 +1,3 @@
-// Create a shortcut to open the app
-// 1. Open the "Shortcuts" app on your iPhone.
-// 2. Tap the "+" icon in the top right to create a new shortcut.
-// 3. Search for "Open app" action and select it.
-// 4. Tap the faded blue word "App" and select "eLicznik" from your list of installed apps.
-// 5. Tap the name at the top of the screen (it says "Open app") and rename it to "eLicznik".
-// 6. Save the changes.
-// 7. Comment the line below and uncomment the next line:
 const url = 'https://www.tauron.pl/';
 // const url = 'shortcuts://run-shortcut?name=eLicznik';
 
