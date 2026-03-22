@@ -3,8 +3,10 @@
 // icon-color: pink; icon-glyph: plug;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const url = 'https://www.tauron.pl/';
-// const url = 'shortcuts://run-shortcut?name=eLicznik';
+const eLicznik = false;
+const url = eLicznik
+    ? 'shortcuts://run-shortcut?name=eLicznik'
+    : 'https://www.tauron.pl/';
 const nextRefresh = new Date();
 nextRefresh.setMinutes(0);
 nextRefresh.setSeconds(0);

@@ -56,8 +56,7 @@ Jeśli chcesz, aby kliknięcie w widget otwierało aplikację Tauron eLicznik, w
 4. Jako aplikację wybierz eLicznik, klikając u góry w wygaszony niebieski tekst `Aplikacja`.
 5. Stuknij `Otwórz aplikację` u góry ekranu i zmień nazwę skrótu dokładnie na `eLicznik`.
 6. Zapisz skrót stukając w ikonę `Wstecz`.
-7. W kodzie skryptu w aplikacji Scriptable znajdź i odkomentuj (usuń `//`) poniższą linijkę na samym początku pliku:
-   `const url = 'shortcuts://run-shortcut?name=eLicznik';`
+7. W kodzie skryptu w aplikacji Scriptable znajdź `const eLicznik = false;` i zamień wartość `false` na `true`.
 
 ## Grupa taryfowa G13
 

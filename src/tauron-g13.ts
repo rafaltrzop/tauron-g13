@@ -1,5 +1,7 @@
-const url = 'https://www.tauron.pl/';
-// const url = 'shortcuts://run-shortcut?name=eLicznik';
+const eLicznik = false;
+const url = eLicznik
+  ? 'shortcuts://run-shortcut?name=eLicznik'
+  : 'https://www.tauron.pl/';
 
 const nextRefresh = new Date();
 nextRefresh.setMinutes(0);
