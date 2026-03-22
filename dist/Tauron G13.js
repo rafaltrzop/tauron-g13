@@ -19,10 +19,10 @@ const isSunday = day === 0;
 const white = '#FFFFFF';
 const black = '#000000';
 const green = '#93B223';
-const orange = '#FFD028';
+const yellow = '#FFD028';
 const red = '#FF4D4D';
 const greenRecommendation = 'Korzystaj z prądu';
-const orangeRecommendation = 'Neutralne stawki prądu';
+const yellowRecommendation = 'Neutralne stawki prądu';
 const redRecommendation = 'Ogranicz zużycie prądu';
 let backgroundColor = Color.black();
 let timePeriod = 'Ups!';
@@ -68,8 +68,8 @@ else if (isLateEvening || isNight) {
 else if (isMorning) {
     timePeriod = `${morningStart}:00 - ${afternoonStart}:00`;
     nextRefresh.setHours(afternoonStart);
-    recommendation = orangeRecommendation;
-    backgroundColor = new Color(orange);
+    recommendation = yellowRecommendation;
+    backgroundColor = new Color(yellow);
 }
 else if (isAfternoon) {
     timePeriod = `${afternoonStart}:00 - ${eveningStart}:00`;
@@ -103,8 +103,8 @@ function buildWidget(url, backgroundColor, label, title) {
 async function previewWidget() {
     const greenWidgetPreview = buildWidget(url, new Color(green), `${afternoonStart}:00 - ${eveningStart}:00`, greenRecommendation);
     await greenWidgetPreview.presentSmall();
-    const orangeWidgetPreview = buildWidget(url, new Color(orange), `${morningStart}:00 - ${afternoonStart}:00`, orangeRecommendation);
-    await orangeWidgetPreview.presentSmall();
+    const yellowWidgetPreview = buildWidget(url, new Color(yellow), `${morningStart}:00 - ${afternoonStart}:00`, yellowRecommendation);
+    await yellowWidgetPreview.presentSmall();
     const redWidgetPreview = buildWidget(url, new Color(red), `${eveningStart}:00 - ${lateEveningStart}:00`, redRecommendation);
     await redWidgetPreview.presentSmall();
     Script.complete();

@@ -6,15 +6,15 @@ Widget został zoptymalizowany pod kątem minimalnego zużycia baterii - odświe
 
 ## Zrzuty ekranu
 
-|             Taryfa zielona (tania)              |            Taryfa pomarańczowa (neutralna)            |            Taryfa czerwona (droga)             |
-| :---------------------------------------------: | :---------------------------------------------------: | :--------------------------------------------: |
-| ![Taryfa zielona](img/green-widget-preview.png) | ![Taryfa pomarańczowa](img/orange-widget-preview.png) | ![Taryfa czerwona](img/red-widget-preview.png) |
+|             Taryfa zielona (tania)              |            Taryfa żółta (neutralna)            |            Taryfa czerwona (droga)             |
+| :---------------------------------------------: | :--------------------------------------------: | :--------------------------------------------: |
+| ![Taryfa zielona](img/green-widget-preview.png) | ![Taryfa żółta](img/yellow-widget-preview.png) | ![Taryfa czerwona](img/red-widget-preview.png) |
 
 ## Główne funkcje
 
 - **Wizualny wskaźnik cen prądu**
 
-  Kolor tła widgetu zmienia się automatycznie w zależności od aktualnej stawki (zielony - tanio, pomarańczowy - neutralnie, czerwony - drogo).
+  Kolor tła widgetu zmienia się automatycznie w zależności od aktualnej stawki (zielony - tanio, żółty - neutralnie, czerwony - drogo).
 
 - **Obsługa taryfy letniej i zimowej**
 
