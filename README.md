@@ -14,7 +14,7 @@ Widget został zoptymalizowany pod kątem minimalnego zużycia baterii - odświe
 
 - **Wizualny wskaźnik cen prądu**
 
-  Kolor tła widgetu zmienia się automatycznie w zależności od aktualnej stawki (zielony - tanio, żółty - neutralnie, czerwony - drogo).
+  Kolor tła widgetu zmienia się automatycznie w zależności od aktualnej stawki.
 
 - **Obsługa taryfy letniej i zimowej**
 
@@ -26,7 +26,7 @@ Widget został zoptymalizowany pod kątem minimalnego zużycia baterii - odświe
 
 - **Rekomendacje**
 
-  Wyraźny tekst podpowiadający, czy to dobry moment na włączenie pralki lub zmywarki ("Korzystaj z prądu", "Ogranicz zużycie prądu").
+  Wyraźny tekst podpowiadający, czy to dobry moment na włączenie pralki lub zmywarki.
 
 - **Szybkie uruchamianie aplikacji Tauron eLicznik (opcjonalnie)**
 
