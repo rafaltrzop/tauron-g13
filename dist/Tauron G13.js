@@ -3,80 +3,111 @@
 // icon-color: pink; icon-glyph: plug;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const eLicznik = false;
-const url = eLicznik
-    ? 'shortcuts://run-shortcut?name=eLicznik'
-    : 'https://www.tauron.pl/';
-const nextRefresh = new Date();
-nextRefresh.setMinutes(0);
-nextRefresh.setSeconds(0);
-const today = new Date();
-const month = today.getMonth();
-const hour = today.getHours();
-const tomorrow = new Date(today);
-tomorrow.setDate(today.getDate() + 1);
-const isTodayFree = isSaturday(today) || isSunday(today) || isPolishHoliday(today);
-const isTomorrowFree = isSaturday(tomorrow) || isSunday(tomorrow) || isPolishHoliday(tomorrow);
-const white = '#FFFFFF';
-const black = '#000000';
-const green = '#93B223';
-const yellow = '#FFD028';
-const red = '#FF4D4D';
-const greenRecommendation = 'Korzystaj z prądu';
-const yellowRecommendation = 'Neutralne stawki prądu';
-const redRecommendation = 'Ogranicz zużycie prądu';
-let timePeriod = 'Ups!';
-let recommendation = 'Wystąpił błąd';
-let backgroundColor = Color.black();
-const isSummerTariff = month >= 3 && month <= 8;
-const morningStart = 7;
-const afternoonStart = 13;
-const eveningStart = isSummerTariff ? 19 : 16;
-const lateEveningStart = isSummerTariff ? 22 : 21;
-const isNight = hour < morningStart;
-const isMorning = hour >= morningStart && hour < afternoonStart;
-const isAfternoon = hour >= afternoonStart && hour < eveningStart;
-const isEvening = hour >= eveningStart && hour < lateEveningStart;
-const isLateEvening = hour >= lateEveningStart;
-if (isTodayFree || (isLateEvening && isTomorrowFree)) {
-    timePeriod = `do ${morningStart}:00 w dzień roboczy`;
-    nextRefresh.setDate(nextRefresh.getDate() + 1);
-    nextRefresh.setHours(morningStart);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-}
-else if (isLateEvening || isNight) {
-    timePeriod = `${lateEveningStart}:00 - ${morningStart}:00`;
-    isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
-    nextRefresh.setHours(morningStart);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-}
-else if (isMorning) {
-    timePeriod = `${morningStart}:00 - ${afternoonStart}:00`;
-    nextRefresh.setHours(afternoonStart);
-    recommendation = yellowRecommendation;
-    backgroundColor = new Color(yellow);
-}
-else if (isAfternoon) {
-    timePeriod = `${afternoonStart}:00 - ${eveningStart}:00`;
-    nextRefresh.setHours(eveningStart);
-    recommendation = greenRecommendation;
-    backgroundColor = new Color(green);
-}
-else if (isEvening) {
-    timePeriod = `${eveningStart}:00 - ${lateEveningStart}:00`;
-    nextRefresh.setHours(lateEveningStart);
-    recommendation = redRecommendation;
-    backgroundColor = new Color(red);
-}
-if (config.runsInApp) {
-    previewWidget();
-}
-else {
-    const widget = buildWidget(url, backgroundColor, timePeriod, recommendation);
-    widget.refreshAfterDate = nextRefresh;
-    Script.setWidget(widget);
+const COLOR_WHITE = new Color('#FFFFFF');
+const COLOR_BLACK = new Color('#000000');
+const COLOR_GREEN = new Color('#93B223');
+const COLOR_YELLOW = new Color('#FFD028');
+const COLOR_RED = new Color('#FF4D4D');
+void displayWidget();
+async function displayWidget() {
+    const eLicznik = false;
+    const url = eLicznik
+        ? 'shortcuts://run-shortcut?name=eLicznik'
+        : 'https://www.tauron.pl/';
+    const nextRefresh = new Date();
+    nextRefresh.setMinutes(0);
+    nextRefresh.setSeconds(0);
+    const today = new Date();
+    const month = today.getMonth();
+    const hour = today.getHours();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const isTodayFree = isSaturday(today) || isSunday(today) || isPolishHoliday(today);
+    const isTomorrowFree = isSaturday(tomorrow) || isSunday(tomorrow) || isPolishHoliday(tomorrow);
+    const greenRecommendation = 'Korzystaj z prądu';
+    const yellowRecommendation = 'Neutralne stawki prądu';
+    const redRecommendation = 'Ogranicz zużycie prądu';
+    let timePeriod = 'Ups!';
+    let recommendation = 'Wystąpił błąd';
+    let backgroundColor = COLOR_BLACK;
+    const isSummerTariff = month >= 3 && month <= 8;
+    const morningStart = 7;
+    const afternoonStart = 13;
+    const eveningStart = isSummerTariff ? 19 : 16;
+    const lateEveningStart = isSummerTariff ? 22 : 21;
+    const isNight = hour < morningStart;
+    const isMorning = hour >= morningStart && hour < afternoonStart;
+    const isAfternoon = hour >= afternoonStart && hour < eveningStart;
+    const isEvening = hour >= eveningStart && hour < lateEveningStart;
+    const isLateEvening = hour >= lateEveningStart;
+    if (isTodayFree || (isLateEvening && isTomorrowFree)) {
+        timePeriod = `do ${morningStart}:00 w dzień roboczy`;
+        nextRefresh.setDate(nextRefresh.getDate() + 1);
+        nextRefresh.setHours(morningStart);
+        recommendation = greenRecommendation;
+        backgroundColor = COLOR_GREEN;
+    }
+    else if (isLateEvening || isNight) {
+        timePeriod = `${lateEveningStart}:00 - ${morningStart}:00`;
+        isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
+        nextRefresh.setHours(morningStart);
+        recommendation = greenRecommendation;
+        backgroundColor = COLOR_GREEN;
+    }
+    else if (isMorning) {
+        timePeriod = `${morningStart}:00 - ${afternoonStart}:00`;
+        nextRefresh.setHours(afternoonStart);
+        recommendation = yellowRecommendation;
+        backgroundColor = COLOR_YELLOW;
+    }
+    else if (isAfternoon) {
+        timePeriod = `${afternoonStart}:00 - ${eveningStart}:00`;
+        nextRefresh.setHours(eveningStart);
+        recommendation = greenRecommendation;
+        backgroundColor = COLOR_GREEN;
+    }
+    else if (isEvening) {
+        timePeriod = `${eveningStart}:00 - ${lateEveningStart}:00`;
+        nextRefresh.setHours(lateEveningStart);
+        recommendation = redRecommendation;
+        backgroundColor = COLOR_RED;
+    }
+    if (config.runsInApp) {
+        const greenWidgetPreview = {
+            url,
+            backgroundColor: COLOR_GREEN,
+            label: `${afternoonStart}:00 - ${eveningStart}:00`,
+            title: greenRecommendation,
+        };
+        const yellowWidgetPreview = {
+            url,
+            backgroundColor: COLOR_YELLOW,
+            label: `${morningStart}:00 - ${afternoonStart}:00`,
+            title: yellowRecommendation,
+        };
+        const redWidgetPreview = {
+            url,
+            backgroundColor: COLOR_RED,
+            label: `${eveningStart}:00 - ${lateEveningStart}:00`,
+            title: redRecommendation,
+        };
+        const widgetConfigs = [
+            greenWidgetPreview,
+            yellowWidgetPreview,
+            redWidgetPreview,
+        ];
+        await previewWidget(widgetConfigs);
+    }
+    else {
+        const widget = buildWidget({
+            url,
+            backgroundColor,
+            label: timePeriod,
+            title: recommendation,
+        });
+        widget.refreshAfterDate = nextRefresh;
+        Script.setWidget(widget);
+    }
     Script.complete();
 }
 function isSaturday(date) {
@@ -145,29 +176,26 @@ function isPolishHoliday(date) {
     }
     return false;
 }
-function buildWidget(url, backgroundColor, label, title) {
+function buildWidget({ url, backgroundColor, label, title, }) {
     const widget = new ListWidget();
     widget.url = url;
     widget.backgroundColor = backgroundColor;
     const labelText = widget.addText(label);
-    labelText.textColor = new Color(white, 0.8);
-    labelText.shadowColor = new Color(black, 0.2);
+    labelText.textColor = new Color(COLOR_WHITE.hex, 0.8);
+    labelText.shadowColor = new Color(COLOR_BLACK.hex, 0.2);
     labelText.shadowRadius = 1;
     labelText.font = Font.boldSystemFont(14);
     widget.addSpacer(4);
     const titleText = widget.addText(title);
-    titleText.textColor = Color.white();
-    titleText.shadowColor = new Color(black, 0.4);
+    titleText.textColor = COLOR_WHITE;
+    titleText.shadowColor = new Color(COLOR_BLACK.hex, 0.4);
     titleText.shadowRadius = 1;
     titleText.font = Font.boldSystemFont(24);
     return widget;
 }
-async function previewWidget() {
-    const greenWidgetPreview = buildWidget(url, new Color(green), `${afternoonStart}:00 - ${eveningStart}:00`, greenRecommendation);
-    await greenWidgetPreview.presentSmall();
-    const yellowWidgetPreview = buildWidget(url, new Color(yellow), `${morningStart}:00 - ${afternoonStart}:00`, yellowRecommendation);
-    await yellowWidgetPreview.presentSmall();
-    const redWidgetPreview = buildWidget(url, new Color(red), `${eveningStart}:00 - ${lateEveningStart}:00`, redRecommendation);
-    await redWidgetPreview.presentSmall();
-    Script.complete();
+async function previewWidget(widgetConfigs) {
+    for (const widgetConfig of widgetConfigs) {
+        const widgetPreview = buildWidget(widgetConfig);
+        await widgetPreview.presentSmall();
+    }
 }

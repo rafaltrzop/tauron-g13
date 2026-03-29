@@ -1,23 +1,9 @@
-const eLicznik = false;
-const url = eLicznik
-  ? 'shortcuts://run-shortcut?name=eLicznik'
-  : 'https://www.tauron.pl/';
-
-const nextRefresh = new Date();
-nextRefresh.setMinutes(0);
-nextRefresh.setSeconds(0);
-
-const today = new Date();
-const month = today.getMonth();
-const hour = today.getHours();
-
-const tomorrow = new Date(today);
-tomorrow.setDate(today.getDate() + 1);
-
-const isTodayFree =
-  isSaturday(today) || isSunday(today) || isPolishHoliday(today);
-const isTomorrowFree =
-  isSaturday(tomorrow) || isSunday(tomorrow) || isPolishHoliday(tomorrow);
+interface WidgetConfig {
+  url: string;
+  backgroundColor: Color;
+  label: string;
+  title: string;
+}
 
 const COLOR_WHITE = new Color('#FFFFFF');
 const COLOR_BLACK = new Color('#000000');
@@ -25,63 +11,118 @@ const COLOR_GREEN = new Color('#93B223');
 const COLOR_YELLOW = new Color('#FFD028');
 const COLOR_RED = new Color('#FF4D4D');
 
-const greenRecommendation = 'Korzystaj z prądu';
-const yellowRecommendation = 'Neutralne stawki prądu';
-const redRecommendation = 'Ogranicz zużycie prądu';
+void displayWidget();
 
-let timePeriod: string = 'Ups!';
-let recommendation: string = 'Wystąpił błąd';
-let backgroundColor: Color = COLOR_BLACK;
+async function displayWidget(): Promise<void> {
+  const eLicznik = false;
+  const url = eLicznik
+    ? 'shortcuts://run-shortcut?name=eLicznik'
+    : 'https://www.tauron.pl/';
 
-const isSummerTariff = month >= 3 && month <= 8;
+  const nextRefresh = new Date();
+  nextRefresh.setMinutes(0);
+  nextRefresh.setSeconds(0);
 
-const morningStart = 7;
-const afternoonStart = 13;
-const eveningStart = isSummerTariff ? 19 : 16;
-const lateEveningStart = isSummerTariff ? 22 : 21;
+  const today = new Date();
+  const month = today.getMonth();
+  const hour = today.getHours();
 
-const isNight = hour < morningStart;
-const isMorning = hour >= morningStart && hour < afternoonStart;
-const isAfternoon = hour >= afternoonStart && hour < eveningStart;
-const isEvening = hour >= eveningStart && hour < lateEveningStart;
-const isLateEvening = hour >= lateEveningStart;
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
 
-if (isTodayFree || (isLateEvening && isTomorrowFree)) {
-  timePeriod = `do ${morningStart}:00 w dzień roboczy`;
-  nextRefresh.setDate(nextRefresh.getDate() + 1);
-  nextRefresh.setHours(morningStart);
-  recommendation = greenRecommendation;
-  backgroundColor = COLOR_GREEN;
-} else if (isLateEvening || isNight) {
-  timePeriod = `${lateEveningStart}:00 - ${morningStart}:00`;
-  isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
-  nextRefresh.setHours(morningStart);
-  recommendation = greenRecommendation;
-  backgroundColor = COLOR_GREEN;
-} else if (isMorning) {
-  timePeriod = `${morningStart}:00 - ${afternoonStart}:00`;
-  nextRefresh.setHours(afternoonStart);
-  recommendation = yellowRecommendation;
-  backgroundColor = COLOR_YELLOW;
-} else if (isAfternoon) {
-  timePeriod = `${afternoonStart}:00 - ${eveningStart}:00`;
-  nextRefresh.setHours(eveningStart);
-  recommendation = greenRecommendation;
-  backgroundColor = COLOR_GREEN;
-} else if (isEvening) {
-  timePeriod = `${eveningStart}:00 - ${lateEveningStart}:00`;
-  nextRefresh.setHours(lateEveningStart);
-  recommendation = redRecommendation;
-  backgroundColor = COLOR_RED;
-}
+  const isTodayFree =
+    isSaturday(today) || isSunday(today) || isPolishHoliday(today);
+  const isTomorrowFree =
+    isSaturday(tomorrow) || isSunday(tomorrow) || isPolishHoliday(tomorrow);
 
-if (config.runsInApp) {
-  previewWidget();
-} else {
-  const widget = buildWidget(url, backgroundColor, timePeriod, recommendation);
-  widget.refreshAfterDate = nextRefresh;
+  const greenRecommendation = 'Korzystaj z prądu';
+  const yellowRecommendation = 'Neutralne stawki prądu';
+  const redRecommendation = 'Ogranicz zużycie prądu';
 
-  Script.setWidget(widget);
+  let timePeriod: string = 'Ups!';
+  let recommendation: string = 'Wystąpił błąd';
+  let backgroundColor: Color = COLOR_BLACK;
+
+  const isSummerTariff = month >= 3 && month <= 8;
+
+  const morningStart = 7;
+  const afternoonStart = 13;
+  const eveningStart = isSummerTariff ? 19 : 16;
+  const lateEveningStart = isSummerTariff ? 22 : 21;
+
+  const isNight = hour < morningStart;
+  const isMorning = hour >= morningStart && hour < afternoonStart;
+  const isAfternoon = hour >= afternoonStart && hour < eveningStart;
+  const isEvening = hour >= eveningStart && hour < lateEveningStart;
+  const isLateEvening = hour >= lateEveningStart;
+
+  if (isTodayFree || (isLateEvening && isTomorrowFree)) {
+    timePeriod = `do ${morningStart}:00 w dzień roboczy`;
+    nextRefresh.setDate(nextRefresh.getDate() + 1);
+    nextRefresh.setHours(morningStart);
+    recommendation = greenRecommendation;
+    backgroundColor = COLOR_GREEN;
+  } else if (isLateEvening || isNight) {
+    timePeriod = `${lateEveningStart}:00 - ${morningStart}:00`;
+    isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
+    nextRefresh.setHours(morningStart);
+    recommendation = greenRecommendation;
+    backgroundColor = COLOR_GREEN;
+  } else if (isMorning) {
+    timePeriod = `${morningStart}:00 - ${afternoonStart}:00`;
+    nextRefresh.setHours(afternoonStart);
+    recommendation = yellowRecommendation;
+    backgroundColor = COLOR_YELLOW;
+  } else if (isAfternoon) {
+    timePeriod = `${afternoonStart}:00 - ${eveningStart}:00`;
+    nextRefresh.setHours(eveningStart);
+    recommendation = greenRecommendation;
+    backgroundColor = COLOR_GREEN;
+  } else if (isEvening) {
+    timePeriod = `${eveningStart}:00 - ${lateEveningStart}:00`;
+    nextRefresh.setHours(lateEveningStart);
+    recommendation = redRecommendation;
+    backgroundColor = COLOR_RED;
+  }
+
+  if (config.runsInApp) {
+    const greenWidgetPreview: WidgetConfig = {
+      url,
+      backgroundColor: COLOR_GREEN,
+      label: `${afternoonStart}:00 - ${eveningStart}:00`,
+      title: greenRecommendation,
+    };
+    const yellowWidgetPreview: WidgetConfig = {
+      url,
+      backgroundColor: COLOR_YELLOW,
+      label: `${morningStart}:00 - ${afternoonStart}:00`,
+      title: yellowRecommendation,
+    };
+    const redWidgetPreview: WidgetConfig = {
+      url,
+      backgroundColor: COLOR_RED,
+      label: `${eveningStart}:00 - ${lateEveningStart}:00`,
+      title: redRecommendation,
+    };
+
+    const widgetConfigs: WidgetConfig[] = [
+      greenWidgetPreview,
+      yellowWidgetPreview,
+      redWidgetPreview,
+    ];
+    await previewWidget(widgetConfigs);
+  } else {
+    const widget = buildWidget({
+      url,
+      backgroundColor,
+      label: timePeriod,
+      title: recommendation,
+    });
+    widget.refreshAfterDate = nextRefresh;
+
+    Script.setWidget(widget);
+  }
+
   Script.complete();
 }
 
@@ -155,12 +196,12 @@ function isPolishHoliday(date: Date): boolean {
   return false;
 }
 
-function buildWidget(
-  url: string,
-  backgroundColor: Color,
-  label: string,
-  title: string,
-): ListWidget {
+function buildWidget({
+  url,
+  backgroundColor,
+  label,
+  title,
+}: WidgetConfig): ListWidget {
   const widget = new ListWidget();
 
   widget.url = url;
@@ -183,30 +224,9 @@ function buildWidget(
   return widget;
 }
 
-async function previewWidget(): Promise<void> {
-  const greenWidgetPreview = buildWidget(
-    url,
-    COLOR_GREEN,
-    `${afternoonStart}:00 - ${eveningStart}:00`,
-    greenRecommendation,
-  );
-  await greenWidgetPreview.presentSmall();
-
-  const yellowWidgetPreview = buildWidget(
-    url,
-    COLOR_YELLOW,
-    `${morningStart}:00 - ${afternoonStart}:00`,
-    yellowRecommendation,
-  );
-  await yellowWidgetPreview.presentSmall();
-
-  const redWidgetPreview = buildWidget(
-    url,
-    COLOR_RED,
-    `${eveningStart}:00 - ${lateEveningStart}:00`,
-    redRecommendation,
-  );
-  await redWidgetPreview.presentSmall();
-
-  Script.complete();
+async function previewWidget(widgetConfigs: WidgetConfig[]): Promise<void> {
+  for (const widgetConfig of widgetConfigs) {
+    const widgetPreview = buildWidget(widgetConfig);
+    await widgetPreview.presentSmall();
+  }
 }
