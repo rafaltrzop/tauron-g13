@@ -2,7 +2,7 @@
 
 Dynamiczny widget, który pomaga optymalizować zużycie prądu. Skrypt na bieżąco analizuje aktualną godzinę, dzień tygodnia oraz porę roku (taryfa letnia i zimowa), aby poinformować Cię, w jakiej strefie cenowej się obecnie znajdujesz.
 
-Widget został zoptymalizowany pod kątem minimalnego zużycia baterii - odświeża się wyłącznie wtedy, gdy następuje zmiana strefy taryfowej.
+Widget został zoptymalizowany pod kątem minimalnego zużycia baterii.
 
 ## Zrzuty ekranu
 
@@ -23,6 +23,10 @@ Widget został zoptymalizowany pod kątem minimalnego zużycia baterii - odświe
 - **Tryb weekendowy**
 
   Rozpoznaje piątkowy wieczór i utrzymuje tanią strefę przez cały weekend aż do poniedziałku rano.
+
+- **Dni wolne ustawowo od pracy**
+
+  Rozpoznaje święta stałe oraz ruchome i utrzymuje tanią strefę przez odpowiedni czas.
 
 - **Rekomendacje**
 
