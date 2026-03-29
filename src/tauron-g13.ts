@@ -19,11 +19,11 @@ const isTodayFree =
 const isTomorrowFree =
   isSaturday(tomorrow) || isSunday(tomorrow) || isPolishHoliday(tomorrow);
 
-const white = '#FFFFFF';
-const black = '#000000';
-const green = '#93B223';
-const yellow = '#FFD028';
-const red = '#FF4D4D';
+const COLOR_WHITE = new Color('#FFFFFF');
+const COLOR_BLACK = new Color('#000000');
+const COLOR_GREEN = new Color('#93B223');
+const COLOR_YELLOW = new Color('#FFD028');
+const COLOR_RED = new Color('#FF4D4D');
 
 const greenRecommendation = 'Korzystaj z prądu';
 const yellowRecommendation = 'Neutralne stawki prądu';
@@ -31,7 +31,7 @@ const redRecommendation = 'Ogranicz zużycie prądu';
 
 let timePeriod: string = 'Ups!';
 let recommendation: string = 'Wystąpił błąd';
-let backgroundColor: Color = Color.black();
+let backgroundColor: Color = COLOR_BLACK;
 
 const isSummerTariff = month >= 3 && month <= 8;
 
@@ -51,28 +51,28 @@ if (isTodayFree || (isLateEvening && isTomorrowFree)) {
   nextRefresh.setDate(nextRefresh.getDate() + 1);
   nextRefresh.setHours(morningStart);
   recommendation = greenRecommendation;
-  backgroundColor = new Color(green);
+  backgroundColor = COLOR_GREEN;
 } else if (isLateEvening || isNight) {
   timePeriod = `${lateEveningStart}:00 - ${morningStart}:00`;
   isLateEvening && nextRefresh.setDate(nextRefresh.getDate() + 1);
   nextRefresh.setHours(morningStart);
   recommendation = greenRecommendation;
-  backgroundColor = new Color(green);
+  backgroundColor = COLOR_GREEN;
 } else if (isMorning) {
   timePeriod = `${morningStart}:00 - ${afternoonStart}:00`;
   nextRefresh.setHours(afternoonStart);
   recommendation = yellowRecommendation;
-  backgroundColor = new Color(yellow);
+  backgroundColor = COLOR_YELLOW;
 } else if (isAfternoon) {
   timePeriod = `${afternoonStart}:00 - ${eveningStart}:00`;
   nextRefresh.setHours(eveningStart);
   recommendation = greenRecommendation;
-  backgroundColor = new Color(green);
+  backgroundColor = COLOR_GREEN;
 } else if (isEvening) {
   timePeriod = `${eveningStart}:00 - ${lateEveningStart}:00`;
   nextRefresh.setHours(lateEveningStart);
   recommendation = redRecommendation;
-  backgroundColor = new Color(red);
+  backgroundColor = COLOR_RED;
 }
 
 if (config.runsInApp) {
@@ -167,16 +167,16 @@ function buildWidget(
   widget.backgroundColor = backgroundColor;
 
   const labelText = widget.addText(label);
-  labelText.textColor = new Color(white, 0.8);
-  labelText.shadowColor = new Color(black, 0.2);
+  labelText.textColor = new Color(COLOR_WHITE.hex, 0.8);
+  labelText.shadowColor = new Color(COLOR_BLACK.hex, 0.2);
   labelText.shadowRadius = 1;
   labelText.font = Font.boldSystemFont(14);
 
   widget.addSpacer(4);
 
   const titleText = widget.addText(title);
-  titleText.textColor = Color.white();
-  titleText.shadowColor = new Color(black, 0.4);
+  titleText.textColor = COLOR_WHITE;
+  titleText.shadowColor = new Color(COLOR_BLACK.hex, 0.4);
   titleText.shadowRadius = 1;
   titleText.font = Font.boldSystemFont(24);
 
@@ -186,7 +186,7 @@ function buildWidget(
 async function previewWidget(): Promise<void> {
   const greenWidgetPreview = buildWidget(
     url,
-    new Color(green),
+    COLOR_GREEN,
     `${afternoonStart}:00 - ${eveningStart}:00`,
     greenRecommendation,
   );
@@ -194,7 +194,7 @@ async function previewWidget(): Promise<void> {
 
   const yellowWidgetPreview = buildWidget(
     url,
-    new Color(yellow),
+    COLOR_YELLOW,
     `${morningStart}:00 - ${afternoonStart}:00`,
     yellowRecommendation,
   );
@@ -202,7 +202,7 @@ async function previewWidget(): Promise<void> {
 
   const redWidgetPreview = buildWidget(
     url,
-    new Color(red),
+    COLOR_RED,
     `${eveningStart}:00 - ${lateEveningStart}:00`,
     redRecommendation,
   );
