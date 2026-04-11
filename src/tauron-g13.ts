@@ -5,16 +5,17 @@ interface WidgetConfig {
   title: string;
 }
 
+const eLicznik = false;
+
 const COLOR_WHITE = new Color('#FFFFFF');
 const COLOR_BLACK = new Color('#000000');
 const COLOR_GREEN = new Color('#93B223');
 const COLOR_YELLOW = new Color('#FFD028');
 const COLOR_RED = new Color('#FF4D4D');
 
-void displayWidget();
+void displayWidget(eLicznik);
 
-async function displayWidget(): Promise<void> {
-  const eLicznik = false;
+async function displayWidget(eLicznik: boolean): Promise<void> {
   const url = eLicznik
     ? 'shortcuts://run-shortcut?name=eLicznik'
     : 'https://www.tauron.pl/';
