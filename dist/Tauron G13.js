@@ -40,9 +40,16 @@ async function displayWidget(eLicznik) {
     const isEvening = hour >= eveningStart && hour < lateEveningStart;
     const isLateEvening = hour >= lateEveningStart;
     if (isTodayFree || (isLateEvening && isTomorrowFree)) {
-        timePeriod = `do ${morningStart}:00 w dzień roboczy`;
-        nextRefresh.setDate(nextRefresh.getDate() + 1);
-        nextRefresh.setHours(morningStart);
+        const nextWorkDay = new Date(nextRefresh);
+        do {
+            nextWorkDay.setDate(nextWorkDay.getDate() + 1);
+        } while (isFreeDay(nextWorkDay));
+        nextWorkDay.setHours(morningStart);
+        const dayName = nextWorkDay.toLocaleDateString('pl-PL', {
+            weekday: 'long',
+        });
+        timePeriod = `do ${morningStart}:00 ${dayName}`;
+        nextRefresh.setTime(nextWorkDay.getTime());
         recommendation = greenRecommendation;
         backgroundColor = COLOR_GREEN;
     }
