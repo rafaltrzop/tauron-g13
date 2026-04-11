@@ -172,6 +172,9 @@ function isPolishHoliday(date: Date): boolean {
 
   // Wielkanoc - Sunday
   const easter = new Date(year, easterMonth, easterDay);
+  if (month === easter.getMonth() && dayOfMonth === easter.getDate()) {
+    return true;
+  }
 
   // Poniedziałek Wielkanocny (+1 day) - Monday
   const easterMonday = new Date(easter);
@@ -184,6 +187,11 @@ function isPolishHoliday(date: Date): boolean {
   }
 
   // Zesłanie Ducha Świętego (Zielone Świątki) (+49 days) - Sunday
+  const pentecost = new Date(easter);
+  pentecost.setDate(easter.getDate() + 49);
+  if (month === pentecost.getMonth() && dayOfMonth === pentecost.getDate()) {
+    return true;
+  }
 
   // Boże Ciało (Uroczystość Najświętszego Ciała i Krwi Chrystusa) (+60 days) - Thursday
   const corpusChristi = new Date(easter);
