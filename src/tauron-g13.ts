@@ -30,10 +30,8 @@ async function displayWidget(): Promise<void> {
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
 
-  const isTodayFree =
-    isSaturday(today) || isSunday(today) || isPolishHoliday(today);
-  const isTomorrowFree =
-    isSaturday(tomorrow) || isSunday(tomorrow) || isPolishHoliday(tomorrow);
+  const isTodayFree = isFreeDay(today);
+  const isTomorrowFree = isFreeDay(tomorrow);
 
   const greenRecommendation = 'Korzystaj z prądu';
   const yellowRecommendation = 'Neutralne stawki prądu';
@@ -124,6 +122,10 @@ async function displayWidget(): Promise<void> {
   }
 
   Script.complete();
+}
+
+function isFreeDay(date: Date): boolean {
+  return isSaturday(date) || isSunday(date) || isPolishHoliday(date);
 }
 
 function isSaturday(date: Date): boolean {

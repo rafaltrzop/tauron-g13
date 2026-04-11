@@ -22,8 +22,8 @@ async function displayWidget() {
     const hour = today.getHours();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    const isTodayFree = isSaturday(today) || isSunday(today) || isPolishHoliday(today);
-    const isTomorrowFree = isSaturday(tomorrow) || isSunday(tomorrow) || isPolishHoliday(tomorrow);
+    const isTodayFree = isFreeDay(today);
+    const isTomorrowFree = isFreeDay(tomorrow);
     const greenRecommendation = 'Korzystaj z prądu';
     const yellowRecommendation = 'Neutralne stawki prądu';
     const redRecommendation = 'Ogranicz zużycie prądu';
@@ -109,6 +109,9 @@ async function displayWidget() {
         Script.setWidget(widget);
     }
     Script.complete();
+}
+function isFreeDay(date) {
+    return isSaturday(date) || isSunday(date) || isPolishHoliday(date);
 }
 function isSaturday(date) {
     return date.getDay() === 6;
