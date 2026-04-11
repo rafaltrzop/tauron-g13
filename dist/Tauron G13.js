@@ -15,8 +15,7 @@ async function displayWidget() {
         ? 'shortcuts://run-shortcut?name=eLicznik'
         : 'https://www.tauron.pl/';
     const nextRefresh = new Date();
-    nextRefresh.setMinutes(0);
-    nextRefresh.setSeconds(0);
+    nextRefresh.setMinutes(0, 0, 0);
     const today = new Date();
     const month = today.getMonth();
     const hour = today.getHours();
