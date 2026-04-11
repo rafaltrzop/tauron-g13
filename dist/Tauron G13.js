@@ -208,6 +208,7 @@ function buildWidget({ url, backgroundColor, label, title, }) {
     titleText.shadowColor = new Color(COLOR_BLACK.hex, 0.4);
     titleText.shadowRadius = 1;
     titleText.font = Font.boldSystemFont(24);
+    titleText.minimumScaleFactor = 0.5;
     return widget;
 }
 async function previewWidget(widgetConfigs) {
