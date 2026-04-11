@@ -20,9 +20,6 @@ async function displayWidget(eLicznik: boolean): Promise<void> {
     ? 'shortcuts://run-shortcut?name=eLicznik'
     : 'https://www.tauron.pl/';
 
-  const nextRefresh = new Date();
-  nextRefresh.setMinutes(0, 0, 0);
-
   const today = new Date();
   const month = today.getMonth();
   const hour = today.getHours();
@@ -32,6 +29,9 @@ async function displayWidget(eLicznik: boolean): Promise<void> {
 
   const isTodayFree = isFreeDay(today);
   const isTomorrowFree = isFreeDay(tomorrow);
+
+  const nextRefresh = new Date(today);
+  nextRefresh.setMinutes(0, 0, 0);
 
   const greenRecommendation = 'Korzystaj z prądu';
   const yellowRecommendation = 'Neutralne stawki prądu';
